@@ -15,12 +15,14 @@ My Portfolio optimization pipeline covering Black-Litterman and risk parity allo
 
 The pipeline runs in two separate stages.
 
-A scheduled batch job (GitHub Actions) extracts prices, computes returns
+A scheduled batch job (GitHub Actions), run monthly on the 1st, extracts prices, computes returns
 and covariance, estimates expected returns, optimizes portfolio weights,
 simulates risk, and prices a tail risk hedge. Results are published to
 the repository's "latest" GitHub Release rather than committed to git —
 each run overwrites the same release assets in place, so repo size and
-commit count stay constant no matter how often the pipeline runs.
+commit count stay constant no matter how often the pipeline runs. The
+pipeline's own keep-alive signal is pushed to a separate branch, never
+to main, which stays fully protected and human-only.
 
 A Streamlit dashboard fetches only the finished output of that job. It
 never recomputes anything and never touches the data source directly.
