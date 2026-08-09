@@ -1,8 +1,8 @@
-name: Daily Pipeline
+name: Monthly Pipeline
 
 on:
   schedule:
-    - cron: "0 6 * * *"
+    - cron: "0 6 1 * *"
   workflow_dispatch:
 
 permissions:
@@ -15,8 +15,6 @@ jobs:
       ALPHA_VANTAGE_API_KEY: ${{ secrets.ALPHA_VANTAGE_API_KEY }}
     steps:
       - uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
 
       - name: Set up Python 3.12
         uses: actions/setup-python@v5
@@ -47,18 +45,12 @@ jobs:
             --title "Latest pipeline run" \
             --notes "Automated data refresh: $(date -u +%Y-%m-%dT%H:%M:%SZ)"
 
-      - name: Heartbeat commit (only this step needs the PAT)
+      - name: Heartbeat (keeps schedule alive — never touches main)
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          git remote set-url origin https://x-access-token:${{ secrets.PAT_TOKEN }}@github.com/Nattawut30/MLOps-Portfolio-Optimization-Python.git
+          git checkout -B automation-heartbeat
           echo "Last automated run: $(date -u +%Y-%m-%dT%H:%M:%SZ)" > .heartbeat
           git add .heartbeat
-          git diff --staged --quiet && exit 0
-          if [ "$(git log -1 --format='%an')" = "github-actions[bot]" ]; then
-            git commit --amend -m "Heartbeat: $(date -u +%Y-%m-%dT%H:%M:%SZ)"
-            git push --force-with-lease origin main
-          else
-            git commit -m "Heartbeat: $(date -u +%Y-%m-%dT%H:%M:%SZ)"
-            git push origin main
-          fi
+          git commit -m "Heartbeat: $(date -u +%Y-%m-%dT%H:%M:%SZ)"
+          git push --force origin automation-heartbeat
