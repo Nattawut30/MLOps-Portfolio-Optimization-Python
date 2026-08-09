@@ -28,7 +28,16 @@ jobs:
         run: poetry install --with pipeline
 
       - name: Run pipeline
-        run: poetry run python -m src.pipeline
+        run: |
+          for attempt in 1 2 3; do
+            poetry run python -m src.pipeline && break
+            if [ "$attempt" -eq 3 ]; then
+              echo "Pipeline failed after 3 full attempts."
+              exit 1
+            fi
+            echo "Attempt $attempt failed — retrying in 2 minutes..."
+            sleep 120
+          done
 
       - name: Publish results to the "latest" release
         env:
