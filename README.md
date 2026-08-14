@@ -4,12 +4,11 @@
 - Email: nattawut.boonnoon@hotmail.com
 
 ***Overview***
-- 
-
-#### Link: <br>
-#### Presentations Slides:
 
 My Portfolio optimization pipeline covering Black-Litterman and risk parity allocation, Brownian motion and Heston stochastic volatility simulation, and FFT tail risk hedge pricing. Built as an MLOps project: a scheduled batch pipeline computes and versions every result on a Streamlit dashboard displays the latest output.
+
+#### Link: <br>
+https://nattawut-port.streamlit.app/
 
 #### System Architecture:
 
@@ -18,8 +17,8 @@ The pipeline runs in two separate stages.
 A scheduled batch job (GitHub Actions), run monthly on the 1st, extracts prices, computes returns
 and covariance, estimates expected returns, optimizes portfolio weights,
 simulates risk, and prices a tail risk hedge. Results are published to
-the repository's "latest" GitHub Release rather than committed to git —
-each run overwrites the same release assets in place, so repo size and
+the repository's "latest" GitHub Release rather than committed to git.
+Each run overwrites the same release assets in place, so repo size and
 commit count stay constant no matter how often the pipeline runs. The
 pipeline's own keep-alive signal is pushed to a separate branch, never
 to main, which stays fully protected and human-only.
@@ -104,11 +103,9 @@ Put-call parity, converting the FFT call price into a put price.
 # <p align="center">Acknowledgments<p/>
 
 ***Dependencies***
-- 
 `Streamlit` · `Pandas` · `Numpy` · `Plotly` · `Scikit-Learn` · `PyTorch` · `MLFlow` · `PyArrow` · `SciPy`
 
 ***Academic Papers & References***
--
 
 - Markowitz, H. (1952). *"Portfolio Selection."* The Journal of Finance, 7(1), 77-91.
 - Black, F., & Scholes, M. (1973). *"The Pricing of Options and Corporate Liabilities."* Journal of Political Economy, 81(3), 637-654.
