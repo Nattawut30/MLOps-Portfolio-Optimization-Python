@@ -4,13 +4,22 @@
 - Email: nattawut.boonnoon@hotmail.com
 
 ***Overview***
+-
+
+[![License](https://img.shields.io/github/license/Nattawut30/MLOps-Portfolio-Optimization-Python)](https://github.com/Nattawut30/MLOps-Portfolio-Optimization-Python/blob/main/LICENSE) <br>
+
+[![CI](https://github.com/Nattawut30/MLOps-Portfolio-Optimization-Python/actions/workflows/ci.yml/badge.svg)](https://github.com/Nattawut30/MLOps-Portfolio-Optimization-Python/actions/workflows/ci.yml)
+[![Pipeline](https://img.shields.io/badge/Pipeline-Passing-brightgreen)](https://github.com/Nattawut30/MLOps-Portfolio-Optimization-Python/actions/workflows/pipeline.yml)
+![Python](https://img.shields.io/badge/python-3.12-blue)
+![GitHub Actions](https://img.shields.io/badge/GitHub%20Actions-Ready-blue?logo=githubactions&logoColor=white)
+![Docker](https://img.shields.io/badge/Docker-Ready-2496ED?logo=docker&logoColor=white)
+
+#### Link: https://nattawut-port.streamlit.app/
 
 My Portfolio optimization pipeline covering Black-Litterman and risk parity allocation, Brownian motion and Heston stochastic volatility simulation, and FFT tail risk hedge pricing. Built as an MLOps project: a scheduled batch pipeline computes and versions every result on a Streamlit dashboard displays the latest output.
 
-#### Link: <br>
-https://nattawut-port.streamlit.app/
-
-#### System Architecture:
+***System Architecture***
+-
 
 The pipeline runs in two separate stages.
 
@@ -42,7 +51,8 @@ Design decisions:
 # <p align="center">Mathematical Model<p/>
 
 
-**1. Returns and covariance**
+***Returns and covariance***
+-
 
 $$r_t = \\ln\\left(\\frac{P_t}{P_{t-1}}\\right)$$
 
@@ -53,7 +63,8 @@ $$\\hat{\\Sigma} = (1 - \\alpha)S + \\alpha F$$
 Ledoit-Wolf shrinkage covariance. S is the sample covariance, F is the
 shrinkage target, alpha is estimated from the data.
 
-**2. Expected returns**
+***Expected returns***
+-
 
 $$\\pi = \\delta \\Sigma w_{mkt}$$
 
@@ -65,7 +76,8 @@ $$E[R] = \\left[(\\tau\\Sigma)^{-1} + P^T\\Omega^{-1}P\\right]^{-1}\\left[(\\tau
 Black-Litterman posterior return, blending the equilibrium with investor
 views P, Q, and view uncertainty Omega.
 
-**3. Portfolio construction**
+***Portfolio construction***
+-
 
 $$\\max_{w} \\frac{w^T\\mu - r_f}{\\sqrt{w^T\\Sigma w}} \\quad \\text{subject to} \\sum_i w_i = 1,\\ w_i \\geq 0$$
 
@@ -75,7 +87,8 @@ $$w_i(\\Sigma w)_i = w_j(\\Sigma w)_j \\quad \\forall\\, i, j$$
 
 Risk parity. Every asset contributes equally to total portfolio variance.
 
-**4. Simulation**
+***Simulation***
+-
 
 $$dS_t = \\mu S_t\\,dt + \\sigma S_t\\,dW_t$$
 
@@ -88,7 +101,8 @@ scheme so variance cannot go negative.
 
 $$\\text{VaR}_\\alpha = \\inf\\{l : P(L > l) \\leq 1-\\alpha\\} \\qquad \\text{CVaR}_\\alpha = E[L \\mid L \\geq \\text{VaR}_\\alpha]$$
 
-**5. Hedge pricing**
+***Hedge pricing***
+-
 
 $$C(K) = \\frac{e^{-\\alpha k}}{\\pi}\\int_0^{\\infty} e^{-ivk}\\,\\psi(v)\\,dv$$
 
@@ -103,9 +117,11 @@ Put-call parity, converting the FFT call price into a put price.
 # <p align="center">Acknowledgments<p/>
 
 ***Dependencies***
+-
 `Streamlit` · `Pandas` · `Numpy` · `Plotly` · `Scikit-Learn` · `PyTorch` · `MLFlow` · `PyArrow` · `SciPy`
 
 ***Academic Papers & References***
+-
 
 - Markowitz, H. (1952). *"Portfolio Selection."* The Journal of Finance, 7(1), 77-91.
 - Black, F., & Scholes, M. (1973). *"The Pricing of Options and Corporate Liabilities."* Journal of Political Economy, 81(3), 637-654.
