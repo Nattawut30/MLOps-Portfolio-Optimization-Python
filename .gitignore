@@ -223,3 +223,6 @@ __marimo__/
 mlruns/*.db
 mlruns/*/
 data/
+
+# Generated local backtest output
+artifacts/

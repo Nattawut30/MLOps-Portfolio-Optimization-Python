@@ -89,3 +89,29 @@ def test_report_writes_all_artifacts(sample_prices, tmp_path):
     assert (tmp_path / "weights.parquet").exists()
     assert (tmp_path / "metrics.csv").exists()
     assert (tmp_path / "report.md").exists()
+
+
+def test_weights_drift_between_monthly_rebalances():
+    dates = pd.bdate_range("2024-01-02", periods=40)
+    prices = pd.DataFrame(
+        {
+            "A": [100.0] * 31 + [110.0] * 9,
+            "B": [100.0] * 40,
+        },
+        index=dates,
+    )
+
+    result = run_backtest(
+        prices,
+        BacktestConfig(
+            strategy="equal_weight",
+            lookback_days=30,
+            rebalance_frequency_days=10,
+            transaction_cost_bps=0.0,
+        ),
+    )
+
+    np.testing.assert_allclose(
+        result.weights.iloc[31].to_numpy(),
+        np.array([110.0 / 210.0, 100.0 / 210.0]),
+    )

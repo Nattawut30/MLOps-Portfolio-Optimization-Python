@@ -170,8 +170,10 @@ def run_backtest(prices: pd.DataFrame, config: BacktestConfig) -> BacktestResult
     """
     Strict walk-forward timing:
 
-    Weights for day t use only returns ending on day t-1.
-    The return realised on day t cannot influence its own allocation.
+    A target is calculated only from returns ending yesterday and applied
+    today. Holdings then drift with realised asset returns until the next
+    rebalance. This is a true periodic-rebalance backtest, not cost-free
+    daily rebalancing disguised as monthly rebalancing.
     """
     prices = _validate_prices(prices)
     returns = prices.pct_change(fill_method=None).iloc[1:]
@@ -183,6 +185,7 @@ def run_backtest(prices: pd.DataFrame, config: BacktestConfig) -> BacktestResult
 
     weights = pd.DataFrame(0.0, index=returns.index, columns=returns.columns)
     turnover = pd.Series(0.0, index=returns.index, name="turnover")
+    gross_returns = pd.Series(0.0, index=returns.index, name="gross_return")
     current_weights = pd.Series(0.0, index=returns.columns)
 
     for position, date in enumerate(returns.index):
@@ -193,18 +196,20 @@ def run_backtest(prices: pd.DataFrame, config: BacktestConfig) -> BacktestResult
         if rebalance_today:
             trailing_returns = returns.iloc[position - config.lookback_days : position]
             target = _target_weights(trailing_returns, config.strategy)
-
-            # Cost applies to total traded notional.
-            # Initial investment from cash has turnover of 1.0.
             turnover.loc[date] = float((target - current_weights).abs().sum())
             current_weights = target
 
-        weights.loc[date] = current_weights
+        held_weights = current_weights.copy()
+        weights.loc[date] = held_weights
+        daily_asset_returns = returns.loc[date]
+        gross_returns.loc[date] = float(held_weights @ daily_asset_returns)
 
-    gross_returns = (weights * returns).sum(axis=1)
+        if held_weights.sum() > 0:
+            post_return_values = held_weights * (1.0 + daily_asset_returns)
+            current_weights = post_return_values / post_return_values.sum()
+
     transaction_cost = turnover * config.transaction_cost_bps / 10000.0
     net_returns = gross_returns - transaction_cost
-
     active_days = weights.sum(axis=1) > 0
 
     daily = pd.DataFrame(
