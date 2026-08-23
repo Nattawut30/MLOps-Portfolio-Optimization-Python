@@ -1,0 +1,2 @@
+strategy,start,end,trading_days,annualized_return,annualized_volatility,sharpe_ratio,max_drawdown,total_turnover,transaction_cost_bps,terminal_wealth_net,transaction_cost_drag
+equal_weight,2020-12-22,2025-10-01,1247,0.06654028421322411,0.11089329315217271,0.23942230989238547,-0.23837634709561673,1.0,5.0,1.375444425298364,0.000698129257594271
