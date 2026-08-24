@@ -43,7 +43,7 @@ def max_sharpe_weights(
     bounds = [(0.0, MAX_WEIGHT)] * n
     initial_guess = np.full(n, 1.0 / n)
 
-    result = minimize(
+    result = minimize(  # type: ignore[call-overload]  # scipy-stubs infers the constraints dict as dict[str, object]; this is the documented scipy API
         negative_sharpe,
         initial_guess,
         method="SLSQP",
@@ -83,7 +83,7 @@ def risk_parity_weights(covariance: pd.DataFrame) -> pd.Series:
     rng = np.random.default_rng(seed=42)
     initial_guess = rng.dirichlet(np.ones(n))
 
-    result = minimize(
+    result = minimize(  # type: ignore[call-overload]  # scipy-stubs infers the constraints dict as dict[str, object]; this is the documented scipy API
         risk_contribution_error,
         initial_guess,
         method="SLSQP",

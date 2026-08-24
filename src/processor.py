@@ -23,7 +23,7 @@ MIN_OBSERVATIONS = 30
 
 
 def _log_returns(prices: pd.DataFrame) -> pd.DataFrame:
-    returns = np.log(prices / prices.shift(1)).dropna(how="any")
+    returns = pd.DataFrame(np.log(prices / prices.shift(1))).dropna(how="any")
     if len(returns) < MIN_OBSERVATIONS:
         raise ValueError(
             f"Only {len(returns)} return observations available; need at "

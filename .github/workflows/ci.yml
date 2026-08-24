@@ -40,7 +40,6 @@ jobs:
 
       - name: Type check
         run: poetry run mypy src/
-        continue-on-error: true
 
       - name: Test
         run: poetry run pytest -v

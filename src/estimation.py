@@ -46,7 +46,7 @@ def black_litterman_returns(
         # No market-cap data source in this project; equal weight is the
         # disclosed stand-in for a true market portfolio.
         market_weights = pd.Series(1.0 / len(tickers), index=tickers)
-    w_mkt = market_weights.reindex(tickers).values
+    w_mkt = market_weights.reindex(tickers).to_numpy()
 
     equilibrium = risk_aversion * sigma @ w_mkt  # π = δ Σ w_mkt
 

@@ -84,4 +84,4 @@ class Settings(BaseSettings):
         return key
 
 
-settings = Settings()
+settings = Settings()  # type: ignore[call-arg]  # pydantic-settings populates required fields from environment variables at runtime

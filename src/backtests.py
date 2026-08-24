@@ -88,7 +88,7 @@ def _risk_parity_weights(window_returns: pd.DataFrame) -> pd.Series:
         target_share = 1.0 / asset_count
         return float(np.sum((contribution_share - target_share) ** 2))
 
-    result = minimize(
+    result = minimize(  # type: ignore[call-overload]  # scipy-stubs infers the constraints dict as dict[str, object]; this is the documented scipy API
         objective,
         x0=np.full(asset_count, 1.0 / asset_count),
         method="SLSQP",
