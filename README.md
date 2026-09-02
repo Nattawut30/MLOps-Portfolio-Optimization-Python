@@ -9,7 +9,7 @@
 [![License](https://img.shields.io/github/license/Nattawut30/MLOps-Portfolio-Optimization-Python)](https://github.com/Nattawut30/MLOps-Portfolio-Optimization-Python/blob/main/LICENSE) <br>
 
 [![CI](https://github.com/Nattawut30/MLOps-Portfolio-Optimization-Python/actions/workflows/ci.yml/badge.svg)](https://github.com/Nattawut30/MLOps-Portfolio-Optimization-Python/actions/workflows/ci.yml)
-[![Pipeline](https://img.shields.io/badge/Pipeline-Passing-brightgreen)](https://github.com/Nattawut30/MLOps-Portfolio-Optimization-Python/actions/workflows/pipeline.yml)
+[![Pipeline](https://github.com/Nattawut30/MLOps-Portfolio-Optimization-Python/actions/workflows/pipeline.yml/badge.svg)](https://github.com/Nattawut30/MLOps-Portfolio-Optimization-Python/actions/workflows/pipeline.yml)
 ![Python](https://img.shields.io/badge/python-3.12-blue)
 ![GitHub Actions](https://img.shields.io/badge/GitHub%20Actions-Ready-blue?logo=githubactions&logoColor=white)
 ![Docker](https://img.shields.io/badge/Docker-Ready-2496ED?logo=docker&logoColor=white)
@@ -23,7 +23,7 @@ My Portfolio optimization pipeline covering Black-Litterman and risk parity allo
 
 The pipeline runs in two separate stages.
 
-A scheduled batch job (GitHub Actions), run monthly on the 1st, extracts prices, computes returns
+A scheduled batch job (GitHub Actions), run on the 1st and 16th of each month, extracts prices, computes returns
 and covariance, estimates expected returns, optimizes portfolio weights,
 simulates risk, and prices a tail risk hedge. Results are published to
 the repository's "latest" GitHub Release rather than committed to git.
