@@ -147,7 +147,7 @@ with col_right:
     st.subheader("Expected Returns")
     if expected_returns is not None:
         fig = go.Figure()
-        fig.add_bar(x=expected_returns.index, y=expected_returns["historical_mean"], name="Historical Mean", marker_color=SECOND)
+        fig.add_bar(x=expected_returns.index, y=expected_returns["historical_mean"], name="Historical Mean (100d)", marker_color=SECOND)
         fig.add_bar(x=expected_returns.index, y=expected_returns["black_litterman"], name="Black-Litterman", marker_color=ACCENT)
         fig.update_layout(**PLOTLY_LAYOUT, barmode="group", height=340)
         st.plotly_chart(fig, width="stretch")
@@ -156,7 +156,9 @@ with col_right:
         st.caption(
             "Black-Litterman starts from the return the market already "
             "implies, then blends in investor views. Historical mean is "
-            "the plain average of past returns."
+            "the plain average of the last ~100 trading days, annualized "
+            "— a short window, so treat it as a rough reference point, "
+            "not a forecast."
         )
     else:
         st.info("No expected returns available.")
