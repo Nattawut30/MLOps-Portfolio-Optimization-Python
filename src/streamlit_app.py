@@ -16,6 +16,8 @@ development.
 Paths are defined locally rather than imported from settings.py,
 since Settings() requires a live Alpha Vantage key to instantiate,
 and this file never needs that key.
+
+Nattawut Boonnoon
 """
 
 import io
@@ -156,8 +158,8 @@ with col_right:
         st.caption(
             "Black-Litterman starts from the return the market already "
             "implies, then blends in investor views. Historical mean is "
-            "the plain average of the last ~100 trading days, annualized "
-            "— a short window, so treat it as a rough reference point, "
+            "the plain average around the last 100 trading days, annualized "
+            "a short window, so treat it as a rough reference point, "
             "not a forecast."
         )
     else:
