@@ -1,4 +1,4 @@
-name: Monthly Pipeline
+name: Portfolio Pipeline
 
 on:
   schedule:
